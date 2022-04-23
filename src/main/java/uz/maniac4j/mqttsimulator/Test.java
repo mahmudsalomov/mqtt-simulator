@@ -35,8 +35,8 @@ public class Test {
 //        System.out.println(server.getPort());
 //        System.out.println(server.getSslPort());
 
-        MqttClient client=new MqttClient("tcp://localhost:1884","test");
-        MqttClient client2=new MqttClient("tcp://localhost:1884","test2");
+        MqttClient client=new MqttClient("tcp://10.10.77.2:1883","test");
+        MqttClient client2=new MqttClient("tcp://10.10.77.2:1883","test2");
 
 
         client.connect();
@@ -60,6 +60,8 @@ public class Test {
         modbusClient.Connect();
 
 
+        modbusClient.addReceiveDataChangedListener(new ReceiveDataChangedListenerImpl());
+
 
         while (true){
 //            client.publish("t",new MqttMessage(String.valueOf(ModbusClient.ConvertRegistersToFloat(modbusClient.ReadInputRegisters(512, 2), ModbusClient.RegisterOrder.HighLow)).getBytes()));
@@ -69,6 +71,7 @@ public class Test {
 //            client.publish("p",new MqttMessage(String.valueOf(new Random().nextDouble()*20).getBytes()));
 //            map.put("TT",new Random().nextDouble()*100);
             map.put("PT", (double) ModbusClient.ConvertRegistersToFloat(modbusClient.ReadHoldingRegisters(520, 2), ModbusClient.RegisterOrder.HighLow));
+            map.put("PT2", (double) ModbusClient.ConvertRegistersToFloat(modbusClient.ReadInputRegisters(540, 2), ModbusClient.RegisterOrder.HighLow));
 //            map.put("TT", new Random().nextDouble()*100);
 //            map.put("PT",new Random().nextDouble()*100);
 //            map.put("PP",new Random().nextDouble()*100);
